@@ -11,8 +11,8 @@ let barChartInstance = null;
 
 // Settings object for storing rates
 let settings = {
-    hourlyRate: 100, // Default value
-    otRate: 150      // Default value
+    hourlyRate: 50, // Default value
+    otRate: 75      // Default value
 };
 
 // --- HELPER FUNCTION: Get all days in the current month ---
