@@ -1,0 +1,235 @@
+/* CSS Variables for Theming */
+:root {
+    --bg-color: #1c2128;
+    --surface-color: #2d333b;
+    --primary-text-color: #cdd9e5;
+    --secondary-text-color: #768390;
+    --accent-color: #2cc5b1;
+    --border-color: #444c56;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--primary-text-color);
+    overscroll-behavior: none;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-width: 500px;
+    margin: auto;
+    background-color: var(--bg-color);
+}
+
+header {
+    text-align: center;
+    padding: 1rem;
+}
+
+main {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 0 1rem;
+}
+
+/* Balance Summary */
+.balance-summary {
+    background-color: var(--surface-color);
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem auto;
+    border: 2px solid var(--border-color);
+}
+.balance-summary p { margin: 0; color: var(--secondary-text-color); }
+.balance-summary h2 { margin: 0.5rem 0 0 0; color: var(--accent-color); font-size: 2.5rem; }
+
+/* Styling for Rate Boxes */
+.rates-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 1rem;
+    margin: 1.5rem 0;
+    padding: 0 1rem;
+}
+
+.rate-box {
+    background-color: var(--surface-color);
+    border-radius: 12px;
+    padding: 0.8rem 1rem;
+    text-align: center;
+    flex-grow: 1;
+}
+
+.rate-box label {
+    display: block;
+    color: var(--secondary-text-color);
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.rate-input {
+    background-color: transparent;
+    border: none;
+    color: var(--primary-text-color);
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    padding: 0;
+}
+
+.rate-input::-webkit-outer-spin-button,
+.rate-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.rate-input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* Calendar */
+.calendar-container { margin-top: 2rem; }
+.calendar-header { display: flex; justify-content: space-between; align-items: center; }
+.calendar-header button { background: none; border: none; color: var(--accent-color); font-size: 1.5rem; cursor: pointer; }
+.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; }
+.calendar-day { padding: 10px 5px; border-radius: 8px; cursor: pointer; position: relative; }
+.calendar-day:hover { background-color: var(--surface-color); }
+.calendar-day.has-entry { border: 1px solid var(--accent-color); }
+
+/* Golden border for days with remarks */
+.calendar-day.has-remark {
+    border: 2px solid gold; 
+}
+.calendar-day.has-entry.has-remark {
+    border: 2px solid gold; 
+}
+
+.day-income { font-size: 0.6rem; color: var(--accent-color); }
+
+/* Tabs */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Charts */
+.chart-container {
+    background-color: var(--surface-color);
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+}
+
+/* Statement Tab Styles (tab3) */
+.statement-container {
+    padding: 0 0 1rem 0; /* Adjust padding for the container */
+}
+
+/* NEW: Style for the export button */
+.export-btn {
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 0.5rem; 
+    width: fit-content;
+}
+
+.export-btn:hover {
+    filter: brightness(1.1);
+}
+
+#payroll-statement-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    background-color: var(--surface-color);
+    border-radius: 8px;
+    overflow: hidden; 
+}
+
+#payroll-statement-table th, 
+#payroll-statement-table td {
+    padding: 10px;
+    text-align: right;
+    border-bottom: 1px solid var(--border-color);
+    word-break: break-word; 
+    /* Prevent text wrapping in data cells */
+    white-space: nowrap; 
+}
+
+/* Highlight color for statement rows with remarks */
+#payroll-statement-table tbody tr.remark-highlight {
+    background-color: #4b3d17; /* Dark gold/brown background for highlight */
+}
+
+#payroll-statement-table th {
+    background-color: var(--bg-color);
+    color: var(--accent-color);
+    font-weight: bold;
+    position: sticky; 
+    top: 0;
+    z-index: 10;
+}
+
+/* Align date column to the left */
+#payroll-statement-table td:first-child,
+#payroll-statement-table th:first-child {
+    text-align: left;
+}
+
+/* Styling for the Total Row in the Footer */
+#payroll-statement-table tfoot td {
+    font-weight: bold;
+    background-color: var(--bg-color);
+    border-top: 2px solid var(--accent-color);
+    text-align: right;
+    color: var(--primary-text-color);
+}
+
+#payroll-statement-table tfoot tr td:first-child {
+    text-align: left;
+    color: var(--accent-color);
+}
+
+
+/* Bottom Navigation */
+.bottom-nav {
+    display: flex;
+    justify-content: space-around;
+    padding: 0.5rem 0;
+    background-color: var(--surface-color);
+    border-top: 1px solid var(--border-color);
+}
+.nav-btn {
+    background: none;
+    border: none;
+    color: var(--secondary-text-color);
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+}
+.nav-btn.active { color: var(--accent-color); border-bottom: 2px solid var(--accent-color); }
+
+/* Modal */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; }
+.modal-content { background-color: var(--surface-color); padding: 1.5rem; border-radius: 12px; width: 90%; max-width: 400px; }
+.modal-content form { display: flex; flex-direction: column; gap: 0.8rem; }
+.modal-content label { font-size: 0.9rem; color: var(--secondary-text-color); }
+.modal-content input, .modal-content textarea { background-color: var(--bg-color); border: 1px solid var(--border-color); color: var(--primary-text-color); padding: 0.7rem; border-radius: 8px; font-size: 1rem; }
+.modal-actions { display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1rem; }
+.modal-actions button { padding: 0.7rem 1rem; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+.modal-actions button[type="submit"] { background-color: var(--accent-color); color: var(--bg-color); }
+.modal-actions button.delete { background-color: #da3633; color: white; margin-right: auto; }

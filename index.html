@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Payroll</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+    <div class="app-container">
+        <header>
+            <h1>Payroll Tracker</h1>
+        </header>
+
+        <main id="main-content">
+
+            <div id="tab1" class="tab-content active">
+                <div class="balance-summary">
+                    <p>Total Balance (This Month)</p>
+                    <h2 id="total-balance">฿0.00</h2>
+                </div>
+
+                <div class="rates-container">
+                    <div class="rate-box">
+                        <label for="hourly-rate-input">ค่าชม.ปกติ</label>
+                        <input type="number" id="hourly-rate-input" class="rate-input">
+                    </div>
+                    <div class="rate-box">
+                        <label for="ot-rate-input">ค่าชม.โอที</label>
+                        <input type="number" id="ot-rate-input" class="rate-input">
+                    </div>
+                </div>
+
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <button id="prev-month-btn">&lt;</button>
+                        <h3 id="current-month-year"></h3>
+                        <button id="next-month-btn">&gt;</button>
+                    </div>
+                    <div id="calendar-grid" class="calendar-grid"></div>
+                </div>
+            </div>
+
+            <div id="tab2" class="tab-content">
+                <div class="chart-container">
+                    <h3>Hours Breakdown</h3>
+                    <div id="hoursPieChartContainer">
+                        <canvas id="hoursPieChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <h3>Daily Income</h3>
+                    <div id="incomeBarChartContainer">
+                        <canvas id="incomeBarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab3" class="tab-content">
+                <div class="statement-container">
+                    <h3>Monthly Payroll Statement</h3>
+                    <button id="download-statement-btn" class="export-btn">Download as Image 🖼️</button>
+                    <table id="payroll-statement-table">
+                        <thead>
+                            <tr>
+                                <th>วันที่</th>
+                                <th>ชม.ปกติ</th>
+                                <th>ชม.โอที</th>
+                                <th>ค่าปกติ</th>
+                                <th>ค่าโอที</th>
+                                <th>อื่นๆ</th>
+                                <th>รวม</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            </tbody>
+                        <tfoot>
+                            <tr id="statement-total-row">
+                                <td colspan="3">รวมยอดเงิน</td>
+                                <td id="total-regular-pay"></td>
+                                <td id="total-ot-pay"></td>
+                                <td id="total-extra-pay"></td>
+                                <td id="total-total"></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            </main>
+
+        <nav class="bottom-nav">
+            <button class="nav-btn active" data-tab="tab1">Home</button>
+            <button class="nav-btn" data-tab="tab2">Summary</button>
+            <button class="nav-btn" data-tab="tab3">Statement</button>
+        </nav>
+    </div>
+
+    <div id="entry-modal" class="modal-overlay" style="display:none;">
+        <div class="modal-content">
+            <h3 id="modal-title">Add/Edit Entry</h3>
+            <form id="entry-form">
+                <input type="hidden" id="entry-date">
+                <label for="work-hr">Work Hours (ชั่วโมงปกติ):</label>
+                <input type="number" id="work-hr" required>
+                <label for="ot-hr">OT Hours (ชั่วโมง OT):</label>
+                <input type="number" id="ot-hr">
+                <label for="extra">Extra/Shift (ค่ากะดึก/อื่นๆ):</label>
+                <input type="number" id="extra">
+                <label for="remark">Remark (หมายเหตุ):</label>
+                <textarea id="remark" rows="2"></textarea>
+                <div class="modal-actions">
+                    <button type="button" id="delete-btn" class="delete">Delete</button>
+                    <button type="button" id="close-modal-btn">Cancel</button>
+                    <button type="submit">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
