@@ -11,8 +11,8 @@ let barChartInstance = null;
 
 // Settings object for storing rates
 let settings = {
-    hourlyRate: 50, // Default value
-    otRate: 75      // Default value
+    hourlyRate: 100, // Default value
+    otRate: 150      // Default value
 };
 
 // --- HELPER FUNCTION: Get all days in the current month ---
@@ -344,20 +344,34 @@ function renderStatementTable() {
 
 
 /**
- * NEW: Function to capture and download the statement table as an image.
+ * FIX: Function to capture and download the statement table as an image without cropping.
  */
 function downloadStatementAsImage() {
-    // We target the container that holds the title, button (temporarily hidden), and table.
     const container = document.querySelector('.statement-container');
     const downloadBtn = document.getElementById('download-statement-btn');
+    const mainElement = document.querySelector('main'); 
     
-    // Temporarily hide the button itself so it doesn't appear in the image
+    // 1. Temporarily hide the button
     downloadBtn.style.display = 'none';
 
-    // Use html2canvas to convert the container element to a canvas
+    // 2. Save original styles and apply temporary fix for full-width capture (The Fix)
+    const originalMainPadding = mainElement.style.padding;
+    const originalMainOverflow = mainElement.style.overflow;
+    const originalContainerWidth = container.style.width;
+    
+    // Crucial step: Remove main padding, force overflow to visible, and set container width to match its content
+    mainElement.style.padding = '0';
+    mainElement.style.overflow = 'visible'; 
+    container.style.width = 'max-content';
+
+    // Check for library
     if (typeof html2canvas === 'undefined') {
         alert("The html2canvas library is not loaded. Cannot generate image.");
-        downloadBtn.style.display = 'block'; // Restore button
+        // Restore styles
+        downloadBtn.style.display = 'block';
+        mainElement.style.padding = originalMainPadding;
+        mainElement.style.overflow = originalMainOverflow;
+        container.style.width = originalContainerWidth; 
         return;
     }
 
@@ -366,26 +380,29 @@ function downloadStatementAsImage() {
         allowTaint: true,
         useCORS: true 
     }).then(canvas => {
-        // Restore button visibility
+        // 3. Restore original CSS properties
         downloadBtn.style.display = 'block';
+        mainElement.style.padding = originalMainPadding;
+        mainElement.style.overflow = originalMainOverflow;
+        container.style.width = originalContainerWidth; 
 
-        // Convert canvas to image data URL
+        // 4. Trigger download
         const imageURL = canvas.toDataURL("image/png");
-        
-        // Create a temporary link element to trigger download
         const a = document.createElement('a');
         const monthYear = new Date(currentYear, currentMonth).toLocaleString('en-US', { month: 'long', year: 'numeric' });
         a.href = imageURL;
         a.download = `Payroll_Statement_${monthYear}.png`;
         
-        // Append to body, click it, and remove it
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
     }).catch(error => {
         console.error("Error generating image:", error);
-        // Ensure button is restored even on error
+        // 5. Ensure restoration on error
         downloadBtn.style.display = 'block';
+        mainElement.style.padding = originalMainPadding;
+        mainElement.style.overflow = originalMainOverflow;
+        container.style.width = originalContainerWidth; 
         alert('Could not generate image. See console for details.');
     });
 }
@@ -425,7 +442,7 @@ function setupEventListeners() {
     document.getElementById('hourly-rate-input').addEventListener('change', saveSettings);
     document.getElementById('ot-rate-input').addEventListener('change', saveSettings);
     
-    // NEW: Download button listener
+    // Download button listener
     document.getElementById('download-statement-btn').addEventListener('click', downloadStatementAsImage);
 }
 
